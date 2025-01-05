@@ -1,8 +1,7 @@
 import pandas as pd
-import numpy as np
 import plotly.graph_objects as go
 
-def strategy(input_csv_path, output_csv_path):
+def generate_signals(input_csv_path, output_csv_path):
     data = pd.read_csv(input_csv_path)
 
     data['signals'] = 0
@@ -27,13 +26,16 @@ def strategy(input_csv_path, output_csv_path):
 
     data.to_csv(output_csv_path, index=False)
 
-    # local stats about singals
+    # local stats about signals
     total_data_points = len(data)
     signal_counts = data['signals'].value_counts()
     print(f"Total Data Points: {total_data_points}")
     print("Signal Counts:")
     for signal, count in signal_counts.items():
         print(f"  Signal {signal}: {count}")
+
+def plot_signals(input_csv_path):
+    data = pd.read_csv(input_csv_path)
 
     fig = go.Figure()
 
@@ -79,10 +81,15 @@ def strategy(input_csv_path, output_csv_path):
     )
 
     # saving plot as html
-    fig.write_html('/Users/shivanshgupta/Desktop/zelta hack/signals_plot_BTC_2019_2023_15m.html')
+    fig.write_html('/Users/shivanshgupta/Desktop/zelta hack/random_outputs/signals_plot_BTC_2019_2023_15m.html')
     fig.show()
 
 if __name__ == "__main__":
     input_csv_path = "/Users/shivanshgupta/Desktop/zelta hack/engineered_data/BTC_2019_2023_15m.csv"
-    output_csv_path = "/Users/shivanshgupta/Desktop/zelta hack/signals_BTC_2019_2023_15m.csv"
-    strategy(input_csv_path, output_csv_path)
+    output_csv_path = "/Users/shivanshgupta/Desktop/zelta hack/random_outputs/signals_BTC_2019_2023_15m.csv"
+    
+    # Generate the signals and save to CSV
+    generate_signals(input_csv_path, output_csv_path)
+    
+    # Plot the signals
+    plot_signals(output_csv_path)
